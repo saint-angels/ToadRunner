@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     public VariableJoystick variableJoystick;
     public float moveSpeed;
+    public float rotationSpeed;
 
     [SerializeField] private CharacterController characterController;
 
@@ -39,16 +40,13 @@ public class PlayerController : MonoBehaviour
         Vector3 moveVector = new Vector3(xAxis, 0, yAxis);
         Vector3 relativeMoveVector = Camera.main.transform.TransformVector(moveVector);
         relativeMoveVector.y = 0;
-        print($"{moveVector}: {relativeMoveVector}");
-        
-        
-        characterController.Move(moveVector * Time.deltaTime * moveSpeed);
 
-        if (moveVector != Vector3.zero)
-        {
-            gameObject.transform.forward = moveVector;
-        }
+
+        characterController.Move(relativeMoveVector * Time.deltaTime * moveSpeed);
         
+        
+        transform.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (relativeMoveVector), Time.deltaTime * rotationSpeed);
+
         playerVelocity.y += -9.8f * Time.deltaTime;
         characterController.Move(playerVelocity * Time.deltaTime);
 
