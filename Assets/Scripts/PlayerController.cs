@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed;
     public float rotationSpeed;
 
+    [SerializeField] private Transform groundCheckPoint;
+
     [SerializeField] private CharacterController characterController;
 
     private Camera camera;
@@ -28,9 +30,26 @@ public class PlayerController : MonoBehaviour
             return;
         }
         
-        if (characterController.isGrounded && playerVelocity.y < 0)
+        // var _isGrounded = Physics.CheckSphere(transform.position, 1f, ~LayerMask.NameToLayer("Ground"), QueryTriggerInteraction.Ignore);
+        RaycastHit hitInfo;
+        bool _isGrounded = Physics.Linecast(groundCheckPoint.position, groundCheckPoint.position + Vector3.down, out hitInfo);
+        
+
+        print(_isGrounded ? "grounded" : "not grounded");
+        if (_isGrounded)
         {
             playerVelocity.y = 0f;
+            
+            print(hitInfo.collider.gameObject.name);
+            PathBlock pathBlock = hitInfo.collider.GetComponent<PathBlock>();
+            if (pathBlock != null)
+            {
+                pathBlock.SetTouched();
+            }
+        }
+        else
+        {
+            playerVelocity.y += Physics.gravity.y * Time.deltaTime;    
         }
         
 
@@ -43,11 +62,13 @@ public class PlayerController : MonoBehaviour
 
 
         characterController.Move(relativeMoveVector * Time.deltaTime * moveSpeed);
-        
-        
-        transform.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (relativeMoveVector), Time.deltaTime * rotationSpeed);
 
-        playerVelocity.y += -9.8f * Time.deltaTime;
+        if (transform.rotation != Quaternion.LookRotation (relativeMoveVector))
+        {
+            transform.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (relativeMoveVector), Time.deltaTime * rotationSpeed);    
+        }
+        
+        
         characterController.Move(playerVelocity * Time.deltaTime);
 
         
@@ -60,5 +81,16 @@ public class PlayerController : MonoBehaviour
 
         // var desiredMoveDirection = forward * yAxis + right * xAxis;
         // transform.Translate(desiredMoveDirection * speed * Time.deltaTime);
+    }
+    
+    
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        // PathBlock pathBlock = hit.collider.GetComponent<PathBlock>();
+        //
+        // if (pathBlock != null)
+        // {
+        //     pathBlock.SetTouched();
+        // }
     }
 }

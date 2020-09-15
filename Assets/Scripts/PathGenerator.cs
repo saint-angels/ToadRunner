@@ -1,18 +1,25 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using BezierSolution;
 using UnityEngine;
 
 public class PathGenerator : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private BezierSpline pathSpine = null;
 
-    // Update is called once per frame
-    void Update()
+    [SerializeField] private GameObject pathBlockPrefab = null;
+
+    private void Start()
     {
+        float blockSize = pathBlockPrefab.transform.localScale.z;
+
+        
+        for (int i = 0; i < 100; i++)
+        {
+            var pos= new Vector3(0, -0.5f, blockSize * i);
+            Instantiate(pathBlockPrefab, pos, Quaternion.identity);
+        }
         
     }
 }
