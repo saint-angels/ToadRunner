@@ -21,15 +21,9 @@ public class PlayerController : MonoBehaviour
     {
         camera = Camera.main;
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
-        if (Mathf.Approximately(variableJoystick.Horizontal, 0f) || Mathf.Approximately(variableJoystick.Vertical, 0f))
-        {
-            return;
-        }
-        
         // var _isGrounded = Physics.CheckSphere(transform.position, 1f, ~LayerMask.NameToLayer("Ground"), QueryTriggerInteraction.Ignore);
         RaycastHit hitInfo;
         bool _isGrounded = Physics.Linecast(groundCheckPoint.position, groundCheckPoint.position + Vector3.down, out hitInfo);
@@ -52,9 +46,16 @@ public class PlayerController : MonoBehaviour
             playerVelocity.y += Physics.gravity.y * Time.deltaTime;    
         }
         
-
+        
         float xAxis = variableJoystick.Horizontal;
         float yAxis = variableJoystick.Vertical;
+        // if (Mathf.Approximately(xAxis, 0f) || Mathf.Approximately(yAxis, 0f))
+        // {
+        //     return;
+        // }
+        
+
+        
         
         Vector3 moveVector = new Vector3(xAxis, 0, yAxis);
         Vector3 relativeMoveVector = Camera.main.transform.TransformVector(moveVector);
@@ -70,27 +71,5 @@ public class PlayerController : MonoBehaviour
         
         
         characterController.Move(playerVelocity * Time.deltaTime);
-
-        
-        // Vector3 forward = camera.transform.forward;
-        // Vector3 right = camera.transform.right;
-        // forward.y = 0f;
-        // right.y = 0f;
-        // forward.Normalize();
-        // right.Normalize();
-
-        // var desiredMoveDirection = forward * yAxis + right * xAxis;
-        // transform.Translate(desiredMoveDirection * speed * Time.deltaTime);
-    }
-    
-    
-    void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        // PathBlock pathBlock = hit.collider.GetComponent<PathBlock>();
-        //
-        // if (pathBlock != null)
-        // {
-        //     pathBlock.SetTouched();
-        // }
     }
 }
