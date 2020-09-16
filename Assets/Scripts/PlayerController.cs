@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private CharacterController characterController;
 
-    private Camera camera;
+    private new Camera camera;
     private Vector3 playerVelocity;
 
 
@@ -71,5 +71,16 @@ public class PlayerController : MonoBehaviour
         
         
         characterController.Move(playerVelocity * Time.deltaTime);
+    }
+
+
+    public void ResetPlayer(Transform startPoint)
+    {
+        characterController.enabled = false;
+        playerVelocity = Vector3.zero;
+        Transform transformCache = transform;
+        transformCache.position = startPoint.position;
+        transformCache.rotation = startPoint.rotation;
+        characterController.enabled = true;
     }
 }

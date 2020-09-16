@@ -26,7 +26,7 @@ public class PathGenerator : MonoBehaviour
         
         
         float splineLength =  spline.CalculateLength();
-        print(splineLength);
+        // print(splineLength);
         int blocksOnSpline = (int)(splineLength / blockLength);
         float blockSplineFraction = blockLength / splineLength;
 

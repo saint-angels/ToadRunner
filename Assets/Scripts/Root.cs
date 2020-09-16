@@ -7,6 +7,7 @@ public class Root : MonoBehaviour
 {
     [SerializeField] LocalCacheManager localCacheManager = null;
     [SerializeField] UiManager uiManager = null;
+    [SerializeField] private GameController gameController = null;
 
 
     public LocalCacheManager LocalCacheManager => localCacheManager;
@@ -19,5 +20,7 @@ public class Root : MonoBehaviour
         //Init game modules here
         
         uiManager.Init();
+        
+        gameController.Init();
     }
 }
