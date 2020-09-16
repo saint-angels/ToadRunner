@@ -29,12 +29,12 @@ public class PlayerController : MonoBehaviour
         bool _isGrounded = Physics.Linecast(groundCheckPoint.position, groundCheckPoint.position + Vector3.down, out hitInfo);
         
 
-        print(_isGrounded ? "grounded" : "not grounded");
+        // print(_isGrounded ? "grounded" : "not grounded");
         if (_isGrounded)
         {
             playerVelocity.y = 0f;
             
-            print(hitInfo.collider.gameObject.name);
+            // print(hitInfo.collider.gameObject.name);
             PathBlock pathBlock = hitInfo.collider.GetComponent<PathBlock>();
             if (pathBlock != null)
             {

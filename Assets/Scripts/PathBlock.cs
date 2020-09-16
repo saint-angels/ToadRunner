@@ -8,6 +8,8 @@ public class PathBlock : MonoBehaviour
     [SerializeField] private GameObject blockView = null;
     [SerializeField] private Collider collider;
 
+    [SerializeField] private Color touchedColor;
+    
     public float fallDelay = 1f;
 
 
@@ -24,12 +26,12 @@ public class PathBlock : MonoBehaviour
             return;
         }
         
-        blockView.GetComponent<Renderer>().material.DOColor(Color.red, 0.2f).SetEase(Ease.OutQuad);
+        blockView.GetComponent<Renderer>().material.DOColor(touchedColor, 0.2f).SetEase(Ease.OutQuad);
         
         Vector3 targetPosition = transform.position - Vector3.up * 5f;
         Sequence destructionSequence = DOTween.Sequence();
 
-        var shakeTween = blockView.transform.DOShakePosition(5f, Vector3.right * .05f, 20, 90f, false, false);
+        var shakeTween = blockView.transform.DOShakePosition(5f, Vector3.right * .025f, 40, 90f, false, false);
         destructionSequence.Insert(0f, shakeTween);
         var movementDown = transform.DOMoveY(-5f, 1f);
         destructionSequence.Insert(fallDelay, movementDown);
