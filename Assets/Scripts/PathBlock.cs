@@ -31,7 +31,7 @@ public class PathBlock : MonoBehaviour
         Vector3 targetPosition = transform.position - Vector3.up * 5f;
         Sequence destructionSequence = DOTween.Sequence();
 
-        var shakeTween = blockView.transform.DOShakePosition(5f, Vector3.right * .025f, 40, 90f, false, false);
+        var shakeTween = blockView.transform.DOShakePosition(2f, Vector3.right * .025f, 40, 90f, false, false);
         destructionSequence.Insert(0f, shakeTween);
         var movementDown = transform.DOMoveY(-5f, 1f);
         destructionSequence.Insert(fallDelay, movementDown);
@@ -41,11 +41,5 @@ public class PathBlock : MonoBehaviour
         {
             Destroy(gameObject);
         });
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

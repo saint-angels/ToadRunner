@@ -11,7 +11,7 @@ public class PathGenerator : MonoBehaviour
 
     [SerializeField] private GameObject pathBlockPrefab = null;
 
-    private void Start()
+    public void Init()
     {
         float blockLength = pathBlockPrefab.transform.localScale.z;
 
