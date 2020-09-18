@@ -12,12 +12,28 @@ public class UiManager : MonoBehaviour
     [SerializeField] private TMPro.TextMeshProUGUI nextLevelLabel = null;
     [SerializeField] private UnityEngine.UI.Image levelProgressImage = null;
     
+    [SerializeField] private TMPro.TextMeshProUGUI comboLabel = null;
+    
 
     //Called from Root
     public void Init(GameController gameController)
     {
         
         startBlockCount = FindObjectsOfType<PathBlock>().Length;
+        
+        PlayerController.Instance.OnNewBlockTouched += OnNewBlockTouched;
+    }
+
+
+    private int comboCounter;
+    private void OnNewBlockTouched()
+    {
+        comboLabel.transform.DOKill(false);
+        comboLabel.transform.localScale = Vector3.one;
+        comboCounter++;
+        comboLabel.text = $"COMBO {comboCounter}";
+
+        comboLabel.transform.DOPunchScale(Vector3.one * .2f, .2f, 1, .1f);
     }
 
 

@@ -13,7 +13,7 @@ public class PathGenerator : MonoBehaviour
 
     public void Init()
     {
-        float blockLength = pathBlockPrefab.transform.localScale.z;
+        float blockLength = 2;
 
         
         // for (int i = 0; i < 100; i++)

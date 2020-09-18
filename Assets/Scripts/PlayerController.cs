@@ -1,9 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Helpers;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : SingletonComponent<PlayerController>
 {
+    public event Action OnNewBlockTouched = () => { };
+    
     public VariableJoystick variableJoystick;
     public float moveSpeed;
     public float rotationSpeed;
@@ -36,8 +40,9 @@ public class PlayerController : MonoBehaviour
             
             // print(hitInfo.collider.gameObject.name);
             PathBlock pathBlock = hitInfo.collider.GetComponent<PathBlock>();
-            if (pathBlock != null)
+            if (pathBlock != null && pathBlock.CanTouch)
             {
+                OnNewBlockTouched();
                 pathBlock.SetTouched();
             }
         }

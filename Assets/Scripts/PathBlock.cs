@@ -1,20 +1,45 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PathBlock : MonoBehaviour
 {
     [SerializeField] private GameObject blockView = null;
     [SerializeField] private Collider collider;
 
+    [SerializeField] private GameObject spikes1 = null;
+    [SerializeField] private GameObject spikes2 = null;
+    
     [SerializeField] private Color touchedColor;
     
     public float fallDelay = 1f;
 
 
+    public bool CanTouch => isTouched == false;
+
     private bool isTouched = false;
-    
+
+    private void Awake()
+    {
+        spikes1.SetActive(false);
+        spikes2.SetActive(false);
+        
+        if (Random.value < .1f)
+        {
+            if (Random.value < .5f)
+            {
+                spikes1.SetActive(true);        
+            }
+            else
+            {
+                spikes2.SetActive(true);
+            }
+        }
+    }
+
     public void SetTouched()
     {
         if (isTouched == false)
@@ -31,9 +56,9 @@ public class PathBlock : MonoBehaviour
         Vector3 targetPosition = transform.position - Vector3.up * 5f;
         Sequence destructionSequence = DOTween.Sequence();
 
-        var shakeTween = blockView.transform.DOShakePosition(2f, Vector3.right * .025f, 40, 90f, false, false);
+        var shakeTween = blockView.transform.DOShakePosition(1f, Vector3.right * .025f, 40, 90f, false, false);
         destructionSequence.Insert(0f, shakeTween);
-        var movementDown = transform.DOMoveY(-5f, 1f);
+        var movementDown = transform.DOMoveY(-5f, .5f);
         destructionSequence.Insert(fallDelay, movementDown);
 
 
