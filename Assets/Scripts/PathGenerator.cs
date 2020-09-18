@@ -1,42 +1,46 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using BezierSolution;
 using Dreamteck.Splines;
 using UnityEngine;
 
 public class PathGenerator : MonoBehaviour
 {
-    [SerializeField] private SplineComputer spline;
-
-    [SerializeField] private GameObject pathBlockPrefab = null;
+    // [SerializeField] private SplineComputer spline;
+    
+    [System.Serializable]
+    public struct PathBlockSetting
+    {
+        public SplineComputer spline;
+        public GameObject pathBlock;
+    }
+    
+    [SerializeField] private  PathBlockSetting[] pathSettings = null;
 
     public void Init()
     {
         float blockLength = 2;
-
         
-        // for (int i = 0; i < 100; i++)
-        // {
-        //     var pos= new Vector3(0, -0.5f, blockLength * i);
-        //     Instantiate(pathBlockPrefab, pos, Quaternion.identity);
-        // }
-
-
-        
-        
-        float splineLength =  spline.CalculateLength();
-        // print(splineLength);
-        int blocksOnSpline = (int)(splineLength / blockLength);
-        float blockSplineFraction = blockLength / splineLength;
-
-        for (float splineProgress = 0; splineProgress < 1f; splineProgress += blockSplineFraction)
+        for (var i = 0; i < pathSettings.Length; i++)
         {
-            var splineSample = spline.Evaluate(splineProgress);
-            Instantiate(pathBlockPrefab, splineSample.position, splineSample.rotation);
+            var spline = pathSettings[i].spline;
+            var pathBlockPrefab = pathSettings[i].pathBlock;
+            
+            float splineLength = spline.CalculateLength();
+            // print(splineLength);
+            int blocksOnSpline = (int) (splineLength / blockLength);
+            float blockSplineFraction = blockLength / splineLength;
+
+            for (float splineProgress = 0; splineProgress < 1f; splineProgress += blockSplineFraction)
+            {
+                var splineSample = spline.Evaluate(splineProgress);
+                Instantiate(pathBlockPrefab, splineSample.position, splineSample.rotation);
+            }
         }
-        
-        
+
+
         // double previousPointPercent = 0;
         // for (int pointIndex = 1; pointIndex < spline.pointCount; pointIndex++)
         // {

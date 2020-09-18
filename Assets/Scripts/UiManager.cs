@@ -14,6 +14,10 @@ public class UiManager : MonoBehaviour
     
     [SerializeField] private TMPro.TextMeshProUGUI comboLabel = null;
     
+    [Header("Combo shake")]
+    public float shakeStrength = 20f;
+    public int shakeVibrato = 60;    
+    public float shakeRandomness = 90f;
 
     //Called from Root
     public void Init(GameController gameController)
@@ -28,12 +32,14 @@ public class UiManager : MonoBehaviour
     private int comboCounter;
     private void OnNewBlockTouched()
     {
-        comboLabel.transform.DOKill(false);
-        comboLabel.transform.localScale = Vector3.one;
+        comboLabel.transform.DOKill(true);
+        // comboLabel.transform.localScale = Vector3.one;
         comboCounter++;
         comboLabel.text = $"COMBO {comboCounter}";
 
-        comboLabel.transform.DOPunchScale(Vector3.one * .2f, .2f, 1, .1f);
+        // comboLabel.transform.DOPunchScale(Vector3.one * .2f, .2f, 1, .1f);
+        
+        comboLabel.transform.DOShakePosition(.2f, shakeStrength, shakeVibrato, shakeRandomness, false, false);
     }
 
 
