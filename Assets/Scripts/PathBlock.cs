@@ -8,8 +8,9 @@ using Random = UnityEngine.Random;
 public class PathBlock : MonoBehaviour
 {
     [SerializeField] private GameObject blockView = null;
-    [SerializeField] private Collider collider;
 
+    [SerializeField] private GameObject coin1 = null;
+    [SerializeField] private GameObject coin2 = null;
     [SerializeField] private GameObject spikes1 = null;
     [SerializeField] private GameObject spikes2 = null;
     
@@ -26,8 +27,21 @@ public class PathBlock : MonoBehaviour
     {
         spikes1.SetActive(false);
         spikes2.SetActive(false);
-        
-        if (Random.value < .1f)
+        coin1.SetActive(false);
+        coin2.SetActive(false);
+
+        if (Random.value < .1)
+        {
+            if (Random.value < .5f)
+            {
+                coin1.SetActive(true);        
+            }
+            else
+            {
+                coin2.SetActive(true);
+            }
+        }
+        if (Random.value < .05f)
         {
             if (Random.value < .5f)
             {

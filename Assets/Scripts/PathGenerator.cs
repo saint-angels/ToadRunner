@@ -2,14 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using BezierSolution;
 using Dreamteck.Splines;
 using UnityEngine;
 
 public class PathGenerator : MonoBehaviour
 {
-    // [SerializeField] private SplineComputer spline;
-    
+
     [System.Serializable]
     public struct PathBlockSetting
     {

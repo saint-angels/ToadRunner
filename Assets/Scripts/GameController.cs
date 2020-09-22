@@ -54,7 +54,7 @@ public class GameController : MonoBehaviour
             case GameState.NONE:
                 break;
             case GameState.PLAYING:
-                if (player.transform.position.y <= -3f) 
+                if (player.transform.position.y <= -10f) 
                 {
                     _state.Set(GameState.GAME_OVER);
                 }

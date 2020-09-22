@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RotateAround : MonoBehaviour
+public class Coin : MonoBehaviour
 {
     public float speed;
     
@@ -16,5 +17,10 @@ public class RotateAround : MonoBehaviour
     void Update()
     {
         transform.RotateAround(transform.position, Vector3.up, speed * Time.deltaTime);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Destroy(gameObject);
     }
 }
