@@ -64,7 +64,7 @@ public class UiManager : MonoBehaviour
     private void OnLevelProgress(float progress)
     {
         levelProgressImage.fillAmount = progress;
-        print(progress);
+        // print(progress);
         // float duration = Mathf.Approximately(0f, progress) ? 0 : .2f;
         // levelProgressImage.DOFillAmount(progress, duration).SetEase(Ease.OutCubic);
     }
