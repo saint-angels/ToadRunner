@@ -73,7 +73,7 @@ public class PlayerController : SingletonComponent<PlayerController>
 
         characterController.Move(relativeMoveVector * Time.deltaTime * moveSpeed);
 
-        if (transform.rotation != Quaternion.LookRotation (relativeMoveVector))
+        // if (transform.rotation != Quaternion.LookRotation (relativeMoveVector))
         {
             transform.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (relativeMoveVector), Time.deltaTime * rotationSpeed);    
         }

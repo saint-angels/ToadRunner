@@ -41,7 +41,7 @@ public class PathBlock : MonoBehaviour
                 coin2.SetActive(true);
             }
         }
-        if (Random.value < .05f)
+        if (Random.value < .025f)
         {
             if (Random.value < .5f)
             {

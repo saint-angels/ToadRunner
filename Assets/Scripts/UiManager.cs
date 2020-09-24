@@ -71,8 +71,9 @@ public class UiManager : MonoBehaviour
         //Getting blocks for fake progress counting
         //TODO: THROW AWAY
         int newBlockCount = FindObjectsOfType<PathBlock>().Length;
-        float LevelProgress = 1f - ((float) newBlockCount / (float) startBlockCount) ;
-        OnLevelProgress(LevelProgress * 5f);
+        float LevelProgress = 1f - ((float) newBlockCount / (float) startBlockCount);
+        
+        OnLevelProgress(Easing.Quadratic.Out(LevelProgress));
     }
 
 
