@@ -21,6 +21,10 @@ public class UiManager : MonoBehaviour
     public float shakeRandomness = 90f;
     public Gradient comboLabelGradient;
 
+    public float comboCooldown = 1f;
+
+    private float currentComboCooldown;
+
     //Called from Root
     public void Init(GameController gameController)
     {
@@ -28,12 +32,16 @@ public class UiManager : MonoBehaviour
         startBlockCount = FindObjectsOfType<PathBlock>().Length;
         
         PlayerController.Instance.OnNewBlockTouched += OnNewBlockTouched;
+
+        currentComboCooldown = comboCooldown;
     }
 
 
     private int comboCounter;
     private void OnNewBlockTouched()
     {
+        currentComboCooldown = comboCooldown;
+        
         comboLabel.transform.DOKill(true);
         comboLabel.DOKill(false); //Kill the previous color tween
         // comboLabel.transform.localScale = Vector3.one;
@@ -51,6 +59,15 @@ public class UiManager : MonoBehaviour
     
     private void Update()
     {
+        if (currentComboCooldown > 0)
+        {
+            currentComboCooldown -= Time.deltaTime;
+        }
+        else
+        {
+            comboCounter = 0;
+        }
+        
         //Getting blocks for fake progress counting
         //TODO: THROW AWAY
         int newBlockCount = FindObjectsOfType<PathBlock>().Length;

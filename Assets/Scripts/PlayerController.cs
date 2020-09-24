@@ -12,6 +12,7 @@ public class PlayerController : SingletonComponent<PlayerController>
     public float moveSpeed;
     public float rotationSpeed;
     public float coyoteTime = .2f;
+    public float fallSpeedMultiplier = 2f;
     
 
     [SerializeField] private Transform groundCheckPoint;
@@ -56,7 +57,7 @@ public class PlayerController : SingletonComponent<PlayerController>
         }
         else
         {
-            playerVelocity.y += Physics.gravity.y * Time.deltaTime;
+            playerVelocity.y += Physics.gravity.y * Time.deltaTime * fallSpeedMultiplier;
             characterAnimator.SetBool(InAir, true);
         }
         
