@@ -56,8 +56,6 @@ public class UiManager : MonoBehaviour
         int newBlockCount = FindObjectsOfType<PathBlock>().Length;
         float LevelProgress = 1f - ((float) newBlockCount / (float) startBlockCount) ;
         OnLevelProgress(LevelProgress * 5f);
-
-
     }
 
 

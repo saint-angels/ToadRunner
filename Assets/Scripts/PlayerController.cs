@@ -11,14 +11,19 @@ public class PlayerController : SingletonComponent<PlayerController>
     public VariableJoystick variableJoystick;
     public float moveSpeed;
     public float rotationSpeed;
+    public float coyoteTime = .2f;
+    
 
     [SerializeField] private Transform groundCheckPoint;
+    [SerializeField] private Animator characterAnimator;
 
     [SerializeField] private CharacterController characterController;
 
     private new Camera camera;
     private Vector3 playerVelocity;
+    private static readonly int InAir = Animator.StringToHash("InAir");
 
+    private float currentCoyoteTime;
 
     // Start is called before the first frame update
     void Start()
@@ -28,40 +33,38 @@ public class PlayerController : SingletonComponent<PlayerController>
     
     void Update()
     {
-        // var _isGrounded = Physics.CheckSphere(transform.position, 1f, ~LayerMask.NameToLayer("Ground"), QueryTriggerInteraction.Ignore);
         RaycastHit hitInfo;
-        bool _isGrounded = Physics.Linecast(groundCheckPoint.position, groundCheckPoint.position + Vector3.down, out hitInfo);
+        bool isGrounded = Physics.Linecast(groundCheckPoint.position, groundCheckPoint.position + Vector3.down, out hitInfo);
         
-
-        // print(_isGrounded ? "grounded" : "not grounded");
-        if (_isGrounded)
+        
+        if (isGrounded)
         {
+            currentCoyoteTime = coyoteTime;   
             playerVelocity.y = 0f;
             
-            // print(hitInfo.collider.gameObject.name);
             PathBlock pathBlock = hitInfo.collider.GetComponent<PathBlock>();
             if (pathBlock != null && pathBlock.CanTouch)
             {
                 OnNewBlockTouched();
                 pathBlock.SetTouched();
             }
+            characterAnimator.SetBool(InAir, false);
+        }
+        else if (0 <= currentCoyoteTime)
+        {
+            currentCoyoteTime -= Time.deltaTime;
         }
         else
         {
-            playerVelocity.y += Physics.gravity.y * Time.deltaTime;    
+            playerVelocity.y += Physics.gravity.y * Time.deltaTime;
+            characterAnimator.SetBool(InAir, true);
         }
         
         
         float xAxis = variableJoystick.Horizontal;
         float yAxis = variableJoystick.Vertical;
-        // if (Mathf.Approximately(xAxis, 0f) || Mathf.Approximately(yAxis, 0f))
-        // {
-        //     return;
-        // }
-        
 
-        
-        
+
         Vector3 moveVector = new Vector3(xAxis, 0, yAxis);
         Vector3 relativeMoveVector = Camera.main.transform.TransformVector(moveVector);
         relativeMoveVector.y = 0;
